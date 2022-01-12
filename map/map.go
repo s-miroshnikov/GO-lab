@@ -17,4 +17,9 @@ func main() {
 		15.257080, 73.918886,
 	}
 	fmt.Println(m["Benaulim"])
+
+	m[""] = Vertex{5, 5}
+	x, ok := m["bjhgjhg"]
+
+	fmt.Println(x, ok)
 }
