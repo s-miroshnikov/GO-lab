@@ -1,4 +1,4 @@
 # GO-lab
 
 This is testing project for learning GO language.
-Это тестовый проект для изучения языка GO.
+Это тестовый репозиторий с примерами для изучения языка GO.
