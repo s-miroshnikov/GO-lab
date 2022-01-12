@@ -22,7 +22,7 @@ func main() {
 	v := Vertex{33, 25}
 	fmt.Println(v.Abs())
 	v.Hi()
-	x := v
+	x := &v
 	x.AddX()
 	fmt.Println(x)
 }
