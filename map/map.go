@@ -9,6 +9,9 @@ type Vertex struct {
 var m map[string]Vertex
 
 func main() {
+	if m == nil {
+		fmt.Println("m is nil")
+	}
 	m = make(map[string]Vertex)
 	m["Benaulim"] = Vertex{
 		15.257080, 73.918886,
