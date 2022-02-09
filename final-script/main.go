@@ -32,7 +32,7 @@ func main() {
 	  
 	  type article_types struct {
 		id      int64
-		"type"    string
+	  	type1    string
 	  }
 	  type author struct {
 		id   int64
