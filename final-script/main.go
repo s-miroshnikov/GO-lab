@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"os"
 
@@ -48,4 +49,8 @@ func main() {
 	pgxscan.Select(ctx, conn, &article_types, `SELECT id, type FROM article_types`)
 	var author []*Author
 	pgxscan.Select(ctx, conn, &author, `SELECT id, author FROM author`)
+	fmt.Println(articles)
+	fmt.Println(magazines)
+	fmt.Println(article_types)
+	fmt.Println(author)
 }
