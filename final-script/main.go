@@ -49,8 +49,8 @@ func main() {
 	pgxscan.Select(ctx, conn, &article_types, `SELECT id, type FROM article_types`)
 	var author []*Author
 	pgxscan.Select(ctx, conn, &author, `SELECT id, author FROM author`)
-	fmt.Println(articles)
-	fmt.Println(magazines)
-	fmt.Println(article_types)
-	fmt.Println(author)
+	fmt.Printf("%v\n", articles)
+	fmt.Printf("%v\n", magazines)
+	fmt.Printf("%v\n", article_types)
+	fmt.Printf("%v\n", author)
 }
