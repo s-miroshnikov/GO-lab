@@ -2,55 +2,65 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
-	"github.com/georgysavva/scany/pgxscan"
-	"github.com/jackc/pgx/v4/pgxpool"
+	"github.com/alexeyco/pig"
+	"github.com/jackc/pgx/v4"
 )
 
-type Articles struct {
-	id              int64
-	magazines_id    int64
-	article_type_id int64
-	author_id       int64
+type Magazine struct {
+	ID   int64  `db:"id"`
+	Name string `db:"name"`
 }
 
-type Magazines struct {
-	id   int64
-	name string
+type Article struct {
+	ID              int64 `db:"id"`
+	Magazine_ID     int64 `db:"magazines_id"`
+	Article_Type_ID int64 `db:"article_type_id"`
+	Author_ID       int64 `db:"author_id"`
 }
 
-type Article_Types struct {
-	id    int64
-	type1 string
+type Article_Type struct {
+	ID   int64  `db:"id"`
+	Type string `db:"type1"`
 }
+
 type Author struct {
-	id     int64
-	author string
-}
-
-func Check(err error) {
-	if err != nil {
-		log.Fatal(err)
-	}
+	ID   int64  `db:"id"`
+	Type string `db:"author"`
 }
 
 func main() {
-	ctx := context.Background()
-	conn, _ := pgxpool.Connect(ctx, os.Getenv("PGDSN"))
+	conn, err := pgx.Connect(context.Background(), os.Getenv("PGDSN"))
+	if err != nil {
+		log.Fatalln(err)
+	}
 
-	var articles []*Articles
-	pgxscan.Select(ctx, conn, &articles, `SELECT id, magazines_id, article_type_id, author_id FROM Articles`)
-	var magazines []*Magazines
-	pgxscan.Select(ctx, conn, &magazines, `SELECT id, name FROM magazines`)
-	var article_types []*Article_Types
-	pgxscan.Select(ctx, conn, &article_types, `SELECT id, type FROM article_types`)
-	var author []*Author
-	pgxscan.Select(ctx, conn, &author, `SELECT id, author FROM author`)
-	fmt.Printf("%v\n", articles)
-	fmt.Printf("%v\n", magazines)
-	fmt.Printf("%v\n", article_types)
-	fmt.Printf("%v\n", author)
+	p := pig.New(conn)
+
+	var magazines []Magazine
+	err = p.Query().Select(&magazines, "SELECT * FROM magazines")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	var author []Author
+	err = p.Query().Select(&author, "SELECT * FROM author")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	var article_types []Article_Type
+	err = p.Query().Select(&article_types, "SELECT * FROM article_types")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	var articles []Article
+	err = p.Query().Select(&articles, "SELECT * FROM articles")
+	if err != nil {
+		log.Fatalln(err)
+	}
+	log.Printf("%v\n", articles)
+	log.Println(article_types)
+	log.Println(magazines)
+	log.Println(author)
 }
