@@ -5,6 +5,7 @@ go 1.17
 require github.com/jackc/pgx/v4 v4.15.0
 
 require (
+	github.com/georgysavva/scany v0.3.0 // indirect
 	github.com/hashicorp/go-version v1.0.0 // indirect
 	github.com/jackc/chunkreader/v2 v2.0.1 // indirect
 	github.com/jackc/pgconn v1.11.0 // indirect
@@ -16,6 +17,7 @@ require (
 	github.com/jackc/puddle v1.2.1 // indirect
 	github.com/mitchellh/gox v1.0.1 // indirect
 	github.com/mitchellh/iochan v1.0.0 // indirect
+	github.com/pkg/errors v0.9.1 // indirect
 	golang.org/x/crypto v0.0.0-20210711020723-a769d52b0f97 // indirect
 	golang.org/x/text v0.3.6 // indirect
 )

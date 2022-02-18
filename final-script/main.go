@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"os"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/georgysavva/scany/pgxscan"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type Articles struct {
@@ -16,16 +16,16 @@ type Articles struct {
 	author_id       int64
 }
 
-type magazines struct {
+type Magazines struct {
 	id   int64
 	name string
 }
 
-type article_types struct {
+type Article_Types struct {
 	id    int64
 	type1 string
 }
-type author struct {
+type Author struct {
 	id     int64
 	author string
 }
@@ -35,114 +35,17 @@ func Check(err error) {
 		log.Fatal(err)
 	}
 }
+
 func main() {
 	ctx := context.Background()
-	conn, err := pgx.Connect(ctx, os.Getenv("PGDSN"))
-	Check(err)
-	defer conn.Close(ctx)
+	conn, _ := pgxpool.Connect(ctx, os.Getenv("PGDSN"))
 
-}
-
-func GetAllArticles(conn *pgx.Conn) {
-	// Execute the query
-	if rows, err := conn.Query(context.Background(), "SELECT * FROM Articles"); err != nil {
-		fmt.Println("Unable to query due to: ", err)
-		return
-	} else {
-		// carefully deferring Queries closing
-		defer rows.Close()
-
-		// Using tmp variable for reading
-		var tmp Articles
-
-		// Next prepares the next row for reading.
-		for rows.Next() {
-			// Scan reads the values from the current row into tmp
-			rows.Scan(&tmp.id, &tmp.magazines_id, &tmp.article_type_id, &tmp.author_id)
-			fmt.Printf("%+v\n", tmp)
-		}
-		if rows.Err() != nil {
-			// if any error occurred while reading rows.
-			fmt.Println("Error will reading Articles table: ", err)
-			return
-		}
-	}
-}
-
-func GetAllMagazines(conn *pgx.Conn) {
-	// Execute the query
-	if rows, err := conn.Query(context.Background(), "SELECT * FROM magazines"); err != nil {
-		fmt.Println("Unable to query due to: ", err)
-		return
-	} else {
-		// carefully deferring Queries closing
-		defer rows.Close()
-
-		// Using tmp variable for reading
-		var tmp magazines
-
-		// Next prepares the next row for reading.
-		for rows.Next() {
-			// Scan reads the values from the current row into tmp
-			rows.Scan(&tmp.id, &tmp.name)
-			fmt.Printf("%+v\n", tmp)
-		}
-		if rows.Err() != nil {
-			// if any error occurred while reading rows.
-			fmt.Println("Error will reading magazines table: ", err)
-			return
-		}
-	}
-}
-
-func GetAllArticleTypes(conn *pgx.Conn) {
-	// Execute the query
-	if rows, err := conn.Query(context.Background(), "SELECT * FROM article_types"); err != nil {
-		fmt.Println("Unable to query due to: ", err)
-		return
-	} else {
-		// carefully deferring Queries closing
-		defer rows.Close()
-
-		// Using tmp variable for reading
-		var tmp article_types
-
-		// Next prepares the next row for reading.
-		for rows.Next() {
-			// Scan reads the values from the current row into tmp
-			rows.Scan(&tmp.id, &tmp.type1)
-			fmt.Printf("%+v\n", tmp)
-		}
-		if rows.Err() != nil {
-			// if any error occurred while reading rows.
-			fmt.Println("Error will reading article_types table: ", err)
-			return
-		}
-	}
-}
-
-func GetAllAuthors(conn *pgx.Conn) {
-	// Execute the query
-	if rows, err := conn.Query(context.Background(), "SELECT * FROM author"); err != nil {
-		fmt.Println("Unable to query due to: ", err)
-		return
-	} else {
-		// carefully deferring Queries closing
-		defer rows.Close()
-
-		// Using tmp variable for reading
-		var tmp author
-
-		// Next prepares the next row for reading.
-		for rows.Next() {
-			// Scan reads the values from the current row into tmp
-			rows.Scan(&tmp.id, &tmp.author)
-			fmt.Printf("%+v\n", tmp)
-		}
-		if rows.Err() != nil {
-			// if any error occurred while reading rows.
-			fmt.Println("Error will reading author table: ", err)
-			return
-		}
-	}
+	var articles []*Articles
+	pgxscan.Select(ctx, conn, &articles, `SELECT id, magazines_id, article_type_id, author_id FROM Articles`)
+	var magazines []*Magazines
+	pgxscan.Select(ctx, conn, &magazines, `SELECT id, name FROM magazines`)
+	var article_types []*Article_Types
+	pgxscan.Select(ctx, conn, &article_types, `SELECT id, type FROM article_types`)
+	var author []*Author
+	pgxscan.Select(ctx, conn, &author, `SELECT id, author FROM author`)
 }
