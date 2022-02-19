@@ -3,9 +3,11 @@ package main
 import (
 	"context"
 	"log"
+	"net/http"
 	"os"
 
 	"github.com/alexeyco/pig"
+	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v4"
 )
 
@@ -32,6 +34,7 @@ type Author struct {
 }
 
 func main() {
+
 	conn, err := pgx.Connect(context.Background(), os.Getenv("PGDSN"))
 	if err != nil {
 		log.Fatalln(err)
@@ -59,8 +62,17 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	log.Printf("%v\n", articles)
-	log.Println(article_types)
-	log.Println(magazines)
-	log.Println(author)
+	router := gin.Default()
+	router.LoadHTMLGlob("templates/*.tmpl")
+	//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "library.tmpl", gin.H{
+			"title":         "DB library",
+			"Articles":      articles,
+			"Article_types": article_types,
+			"Magazines":     magazines,
+			"Authors":       author,
+		})
+	})
+	router.Run(":8080")
 }
