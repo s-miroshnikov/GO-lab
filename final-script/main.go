@@ -62,6 +62,7 @@ func main() {
 	if err != nil {
 		log.Fatalln(err)
 	}
+	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
 	router.LoadHTMLGlob("templates/*.tmpl")
 	//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")
