@@ -64,7 +64,7 @@ func main() {
 	}
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.Default()
-	router.LoadHTMLGlob("templates/*.tmpl")
+	router.LoadHTMLGlob("/local/scripts/templates/*.tmpl")
 	//router.LoadHTMLFiles("templates/template1.html", "templates/template2.html")
 	router.GET("/", func(c *gin.Context) {
 		c.HTML(http.StatusOK, "library.tmpl", gin.H{
