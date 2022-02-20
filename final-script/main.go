@@ -37,7 +37,7 @@ type Author struct {
 func main() {
 	fn := logOutput()
 	defer fn()
-	conn, err := pgx.Connect(context.Background(), "postgres://worker1:Q23fs12qwe@db/library")
+	conn, err := pgx.Connect(context.Background(), "postgres://reader1:Password1@db/library")
 	if err != nil {
 		log.Fatalln(err)
 	}
