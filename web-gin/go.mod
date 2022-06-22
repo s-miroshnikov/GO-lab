@@ -1,4 +1,4 @@
-module final-script
+module web-gin
 
 go 1.17
 
