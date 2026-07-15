@@ -4,7 +4,7 @@ This is testing project for learning GO language. <br>
 Most of them are just copied tutorials from the Tour of Go. 
 
 ### web-gin
-Simple web-server based on gin-gonic/gin, pgx v4 driver and alexeyco/pig. <br>
+Simple web-server based on gin-gonic/gin, pgx v5 driver and alexeyco/pig. <br>
 
 <p>
 In this example I added PostgreSQL database 'library' with such tables: <br>
