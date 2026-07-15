@@ -5,7 +5,7 @@ go 1.25.11
 require (
 	github.com/alexeyco/pig v1.0.0
 	github.com/gin-gonic/gin v1.9.1
-	github.com/jackc/pgx/v4 v4.12.1-0.20210724153913-640aa07df17c
+	github.com/jackc/pgx/v5 v5.10.0
 )
 
 require (
