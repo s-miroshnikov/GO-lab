@@ -3,7 +3,6 @@ module web-gin
 go 1.25.11
 
 require (
-	github.com/alexeyco/pig
 	github.com/gin-gonic/gin v1.9.1
 	github.com/jackc/pgx/v5 v5.10.0
 )
