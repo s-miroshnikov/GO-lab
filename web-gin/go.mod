@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/alexeyco/pig v1.0.0
 	github.com/gin-gonic/gin v1.9.1
-	github.com/jackc/pgx/v4 v4.18.1
+	github.com/jackc/pgx v5.9.1
 )
 
 require (
